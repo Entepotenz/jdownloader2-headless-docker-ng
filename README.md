@@ -1,7 +1,12 @@
+[![Check baseimage has been updated](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/check-baseimage.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/check-baseimage.yml)
+
+[![Create and publish a Docker image](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml)
+
 # jdownloader2-headless-docker-ng
 
 This is a docker container which creates a headless instance of JDownloader.
 You can control this JDownloader instance by configuring your [MyJDownloader](https://my.jdownloader.org/) account.
+This container checks once a week if a new baseimage is available and builds/pushes a new image.
 
 This code is based on this repository: https://github.com/PlusMinus0/headless-jd2-docker
 
