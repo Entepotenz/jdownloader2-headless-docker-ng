@@ -15,7 +15,7 @@ docker image push "ghcr.io/${PROJECT_NAME}:latest"
 
 
 docker build --pull --platform linux/amd64 \
-    -t "${PROJECT_NAME}:${TODAY}" \
+    -t "${PROJECT_NAME}:${TODAY}-ffmpeg" \
     -t "${PROJECT_NAME}:latest-ffmpeg" \
     -t "ghcr.io/${PROJECT_NAME}:latest-ffmpeg" . \
     --file="Dockerfile-ffmpeg"
