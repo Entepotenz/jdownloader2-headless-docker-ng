@@ -70,7 +70,7 @@ jobs:
             type=schedule
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
           flavor: |
-            latest=auto
+            latest=true
             prefix=
             suffix=
         if: steps.baseupdatecheck.outputs.needs-updating == 'true'
@@ -96,7 +96,7 @@ jobs:
             type=schedule
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
           flavor: |
-            latest=auto
+            latest=true
             prefix=
             suffix=-ffmpeg
         if: steps.baseupdatecheck.outputs.needs-updating == 'true'
