@@ -30,7 +30,7 @@ This code is based on this repository: https://github.com/PlusMinus0/headless-jd
         -e EMAIL=my@mail.com -e PASSWORD=my_secret_password
         -v /config/jd2:/opt/JDownloader/cfg \
         -v /home/user/Downloads:/opt/JDownloader/Downloads \
-        ghcr.io/entepotenz/jdownloader2-headless-docker-ng:latest
+        entepotenz/jdownloader2-headless-docker-ng:latest
     ```
 
 If you don't want to specify your credentials on the command line, remove them from the command above (`-e EMAIL=... -e PASSWORD=...`) 
