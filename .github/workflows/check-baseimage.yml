@@ -94,9 +94,9 @@ jobs:
           images: ${{ env.IMAGE_NAME }},${{ env.REGISTRY_GITHUB }}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=raw,value=latest-ffmpeg,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+            type=raw,value=latest,enable={{is_default_branch}}
           flavor: |
-            latest=true
+            latest=false
             prefix=
             suffix=-ffmpeg
         if: steps.baseupdatecheck.outputs.needs-updating == 'true'
