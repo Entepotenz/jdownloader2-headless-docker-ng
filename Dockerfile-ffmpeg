@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:17-jre-jammy
 
 # Create directory, and start JD2 for the initial update and creation of config files.
 RUN apt-get update && apt-get dist-upgrade -yqq && \
