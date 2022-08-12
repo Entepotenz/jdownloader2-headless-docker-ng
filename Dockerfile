@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:18-jre-jammy
 
 # Create directory, and start JD2 for the initial update and creation of config files.
 RUN apt-get update && apt-get dist-upgrade -yqq && \
