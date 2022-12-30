@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v3
 
       - id: string_lower_case
-        uses: ASzc/change-string-case-action@v5
+        uses: Entepotenz/change-string-case-action-min-dependencies@v1
         with:
           string: ${{ env.IMAGE_NAME }}
 
