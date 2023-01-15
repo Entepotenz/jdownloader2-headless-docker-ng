@@ -32,7 +32,7 @@ This code is based on this repository: [https://github.com/PlusMinus0/headless-j
         entepotenz/jdownloader2-headless-docker-ng:latest
     ```
 
-If you don't want to specify your credentials on the command line, remove them from the command above (`-e EMAIL=... -e PASSWORD=...`)
+If you don't want to specify your credentials on the command-line, remove them from the command above (`-e EMAIL=... -e PASSWORD=...`)
 and add them manually to the file `<config-dir>/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json` as in
 
 ```json
