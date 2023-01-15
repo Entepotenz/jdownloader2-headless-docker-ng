@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -o nounset
+set -o errexit
+set -o pipefail
+if [ "${TRACE-0}" -eq 1 ]; then set -o xtrace; fi
 
 # Set defaults for uid and gid to not be root
 if [ -z "$GID" ]; then GID=100;  fi

@@ -1,3 +1,4 @@
+---
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
@@ -16,6 +17,12 @@ on:
   pull_request:
     branches:
       - "main"
+
+# cancel a currently running workflow from the same PR, branch or tag when a new workflow is triggered
+# source: https://stackoverflow.com/questions/66335225/how-to-cancel-previous-runs-in-the-pr-when-you-push-new-commitsupdate-the-curre/67939898#67939898
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   REGISTRY_GITHUB: ghcr.io
@@ -54,11 +61,17 @@ jobs:
           IMAGE_NEEDS_UPDATE: ${{ steps.baseupdatecheck.outputs.needs-updating }}
           GIT_EVENT_NAME: ${{ github.event_name }}
         run: |
-          if (( $IMAGE_NEEDS_UPDATE == "true" || $GIT_EVENT_NAME == "push" || $GIT_EVENT_NAME == "pull_request" )); then
-            echo "run_jobs=true" >> $GITHUB_OUTPUT
+          if [ "$IMAGE_NEEDS_UPDATE" = "true" ] || [ "$GIT_EVENT_NAME" = "push" ] || [ "$GIT_EVENT_NAME" = "pull_request" ]; then
+            echo "run_jobs=true" >> "$GITHUB_OUTPUT"
+            echo "### We need to build a new docker image! :rocket:" >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "run_jobs=false" >> $GITHUB_OUTPUT
+            echo "run_jobs=false" >> "$GITHUB_OUTPUT"
+            echo "### Everything is already up-to-date!" >> "$GITHUB_STEP_SUMMARY"
           fi
+          { 
+            echo "IMAGE_NEEDS_UPDATE:='$IMAGE_NEEDS_UPDATE'"
+            echo "GIT_EVENT_NAME:='$GIT_EVENT_NAME'"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   build-and-push-image:
     runs-on: ubuntu-latest

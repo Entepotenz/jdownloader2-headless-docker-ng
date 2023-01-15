@@ -1,6 +1,5 @@
-[![Check baseimage has been updated](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/check-baseimage.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/check-baseimage.yml)
-
 [![Create and publish a Docker image](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml)
+[![Lint Code Base](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/linter.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/linter.yml)
 
 # jdownloader2-headless-docker-ng
 
