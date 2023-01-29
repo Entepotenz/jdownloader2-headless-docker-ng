@@ -40,9 +40,6 @@ jobs:
     outputs:
       condition_met: ${{ steps.set_output.outputs.run_jobs }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - id: string_lower_case
         uses: Entepotenz/change-string-case-action-min-dependencies@v1
         with:
@@ -50,7 +47,7 @@ jobs:
 
       - name: Docker Image Update Checker
         id: baseupdatecheck
-        uses: lucacome/docker-image-update-checker@v1
+        uses: lucacome/docker-image-update-checker@93aeebde51b01e63284197bae89f9a1d6dd1921f # v1.1.1
         with:
           base-image: ${{ env.BASE_IMAGE }}
           image: ${{ steps.string_lower_case.outputs.lowercase }}:latest
