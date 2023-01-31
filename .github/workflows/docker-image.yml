@@ -118,7 +118,7 @@ jobs:
             suffix=
 
       - name: Build and push Docker image (WITHOUT ffmpeg)
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           platforms: ${{ env.BUILD_PLATFORMS }}
@@ -142,7 +142,7 @@ jobs:
             suffix=-ffmpeg
 
       - name: Build and push Docker image (WITH ffmpeg)
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           platforms: ${{ env.BUILD_PLATFORMS }}
