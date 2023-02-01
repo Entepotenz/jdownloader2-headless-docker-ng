@@ -10,8 +10,11 @@ if [ -z "$GID" ]; then GID=100;  fi
 if [ -z "$UID" ]; then UID=1000; fi
 
 if [ "$GID" -ne "0" ]; then
-	GROUP=jdownloader
-	groupadd -g "$GID" "$GROUP"
+    GROUP=jdownloader
+    # if group does not exist
+    if [ ! "$(getent group $GROUP)" ]; then
+        groupadd -g "$GID" "$GROUP"
+    fi
 else
 	GROUP=root
 fi
