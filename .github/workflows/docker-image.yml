@@ -16,7 +16,7 @@ on:
       - "v*.*.*"
   pull_request:
     branches:
-      - "main"
+      - "master"
 
 # cancel a currently running workflow from the same PR, branch or tag when a new workflow is triggered
 # source: https://stackoverflow.com/questions/66335225/how-to-cancel-previous-runs-in-the-pr-when-you-push-new-commitsupdate-the-curre/67939898#67939898
@@ -47,7 +47,7 @@ jobs:
 
       - name: Docker Image Update Checker
         id: baseupdatecheck
-        uses: lucacome/docker-image-update-checker@93aeebde51b01e63284197bae89f9a1d6dd1921f # v1.1.1
+        uses: lucacome/docker-image-update-checker@f50d56412b948cfdbb842c5419372681e0db3df1 # v1.2.1
         with:
           base-image: ${{ env.BASE_IMAGE }}
           image: ${{ steps.string_lower_case.outputs.lowercase }}:latest
@@ -91,7 +91,6 @@ jobs:
       
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
-        if: github.event_name != 'pull_request'
         with:
           registry: ${{ env.REGISTRY_GITHUB }}
           username: ${{ github.repository_owner }}
@@ -99,7 +98,6 @@ jobs:
 
       - name: Login to DockerHub
         uses: docker/login-action@v2 
-        if: github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -118,7 +116,7 @@ jobs:
             suffix=
 
       - name: Build and push Docker image (WITHOUT ffmpeg)
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 #v4.0.0
         with:
           context: .
           platforms: ${{ env.BUILD_PLATFORMS }}
@@ -142,7 +140,7 @@ jobs:
             suffix=-ffmpeg
 
       - name: Build and push Docker image (WITH ffmpeg)
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671 #v4.0.0
         with:
           context: .
           platforms: ${{ env.BUILD_PLATFORMS }}
@@ -154,7 +152,7 @@ jobs:
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
