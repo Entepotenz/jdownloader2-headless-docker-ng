@@ -16,7 +16,7 @@ on:
       - "v*.*.*"
   pull_request:
     branches:
-      - "main"
+      - "master"
 
 # cancel a currently running workflow from the same PR, branch or tag when a new workflow is triggered
 # source: https://stackoverflow.com/questions/66335225/how-to-cancel-previous-runs-in-the-pr-when-you-push-new-commitsupdate-the-curre/67939898#67939898
@@ -89,7 +89,6 @@ jobs:
       
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
-        if: github.event_name != 'pull_request'
         with:
           registry: ${{ env.REGISTRY_GITHUB }}
           username: ${{ github.repository_owner }}
@@ -97,16 +96,20 @@ jobs:
 
       - name: Login to DockerHub
         uses: docker/login-action@v2 
-        if: github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - id: string_lower_case
+        uses: Entepotenz/change-string-case-action-min-dependencies@v1
+        with:
+          string: ${{ env.IMAGE_NAME }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.IMAGE_NAME }},${{ env.REGISTRY_GITHUB }}/${{ env.IMAGE_NAME }}
+          images: ${{ steps.string_lower_case.outputs.lowercase }},${{ env.REGISTRY_GITHUB }}/${{ steps.string_lower_case.outputs.lowercase }}
           tags: |
             type=ref,event=branch
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
@@ -130,7 +133,7 @@ jobs:
         id: meta_ffmpeg
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.IMAGE_NAME }},${{ env.REGISTRY_GITHUB }}/${{ env.IMAGE_NAME }}
+          images: ${{ steps.string_lower_case.outputs.lowercase }},${{ env.REGISTRY_GITHUB }}/${{ steps.string_lower_case.outputs.lowercase }}
           tags: |
             type=ref,event=branch
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
@@ -152,7 +155,7 @@ jobs:
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
