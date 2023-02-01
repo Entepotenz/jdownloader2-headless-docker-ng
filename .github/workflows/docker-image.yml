@@ -75,7 +75,9 @@ jobs:
     needs: [check-pre-condition]
     if: needs.check-pre-condition.outputs.condition_met == 'true'
     timeout-minutes: 20
-    permissions: write-all
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -92,7 +94,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY_GITHUB }}
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to DockerHub
         uses: docker/login-action@v2 
