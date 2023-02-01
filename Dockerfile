@@ -15,8 +15,6 @@ RUN apt-get update && \
 COPY common/* /opt/JDownloader/
 RUN chmod +x /opt/JDownloader/entrypoint.sh
 
-WORKDIR /opt/JDownloader/
-
 ENTRYPOINT ["tini", "-g", "--", "/opt/JDownloader/entrypoint.sh"]
 # Run this when the container is started
 CMD ["java", "-Djava.awt.headless=true", "-jar", "/opt/JDownloader/JDownloader.jar"]
