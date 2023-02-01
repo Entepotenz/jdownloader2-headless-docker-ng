@@ -3,30 +3,39 @@
 # set -o nounset
 set -o errexit
 set -o pipefail
-if [ "${TRACE-0}" -eq 1 ]; then set -o xtrace; fi
+set -o xtrace
 
 # Set defaults for uid and gid to not be root
 if [ -z "$GID" ]; then GID=100;  fi
 if [ -z "$UID" ]; then UID=1000; fi
 
+GROUP=jdownloader
+
 if [ "$GID" -ne "0" ]; then
-    GROUP=jdownloader
-    # if group does not exist
-    if [ ! "$(getent group $GROUP)" ]; then
-        groupadd -g "$GID" "$GROUP"
+    if [ "$(getent group $GROUP)" ]; then
+        echo "group exists -> skipping creation; GROUP:=$GROUP"
+    else
+        echo "group does not exist -> creating group"
+        groupadd --non-unique --gid "$GID" "$GROUP"
     fi
+    getent group "$GROUP"
 else
 	GROUP=root
 fi
 
 if [ "$UID" -ne "0" ]; then
     USER=jdownloader
-
-    # Create user without home (-M) and remove login shell
-    useradd -M -s /bin/false -g "$GID" -u "$UID" "$USER"
+    if getent passwd "$USER" > /dev/null 2>&1; then
+        echo "user already exists -> skipping creation; USER:=$USER"
+    else
+        echo "user does not exist -> creating user"
+        # Create user without home (-M) and remove login shell
+        useradd -M --shell /bin/false --gid "$GID" --uid "$UID" "$USER"
+    fi
+    getent passwd "$USER"
 else
     USER=root
-    usermod -ag "$GID"
+    usermod --append --gid "$GID" --groups "$GROUP" "$USER"
 fi
 
 # Set MyJDownloader credentials
