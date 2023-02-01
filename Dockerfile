@@ -4,10 +4,10 @@ FROM eclipse-temurin:17-jre-jammy
 RUN apt-get update && \
 	apt-get install -yqq tini wget make gcc jq && \
 	mkdir -p /opt/JDownloader/libs && \
-	wget -O /opt/JDownloader/JDownloader.jar wget --progress=dot:giga http://installer.jdownloader.org/JDownloader.jar && \
+	wget -O /opt/JDownloader/JDownloader.jar --progress=dot:giga http://installer.jdownloader.org/JDownloader.jar && \
 	java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar && \
 	mkdir -p /tmp/ && chmod a+trwx /tmp && \
-	wget -O /tmp/su-exec.tar.gz wget --progress=dot:giga https://github.com/ncopa/su-exec/archive/v0.2.tar.gz && \
+	wget -O /tmp/su-exec.tar.gz --progress=dot:giga https://github.com/ncopa/su-exec/archive/v0.2.tar.gz && \
 	cd /tmp/ && tar -xf su-exec.tar.gz && cd su-exec-0.2 && make && cp su-exec /usr/bin && \
 	apt-get purge -yqq wget make gcc && apt-get autoremove -yqq && cd / && rm -rf /tmp/*
 
