@@ -10,11 +10,11 @@ PROJECT_NAME="entepotenz/jdownloader2-headless-docker-ng"
 EMAIL="EMAIL"
 PASSWORD="SECRET"
 
-# docker run --rm --name jd2 \
-#     -e EMAIL="${EMAIL}" -e PASSWORD="${PASSWORD}" \
-#     "ghcr.io/${PROJECT_NAME}:latest"
+# docker run --pull --rm --name jd2 \
+#     -e EMAIL="${EMAIL}" -e PASSWORD="${PASSWORD}" --platform linux/amd64 \
+#     "ghcr.io/${PROJECT_NAME}"
 
-docker run --rm --name jd2 \
+docker run --pull --rm --name jd2 \
     -e EMAIL="$EMAIL" -e PASSWORD="$PASSWORD" \
     -v /config/jd2:/opt/JDownloader/cfg \
     -v "$HOME/Downloads":/opt/JDownloader/Downloads \
