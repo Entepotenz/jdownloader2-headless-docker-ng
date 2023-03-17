@@ -27,8 +27,8 @@ This code is based on this repository: [https://github.com/PlusMinus0/headless-j
     ```shell
     docker run -d --name jd2 \
         -e EMAIL=my@mail.com -e PASSWORD=my_secret_password
-        -v /config/jd2:/opt/JDownloader/cfg \
-        -v /home/user/Downloads:/opt/JDownloader/Downloads \
+        -v /config/jd2:/app/cfg \
+        -v /home/user/Downloads:/data \
         entepotenz/jdownloader2-headless-docker-ng:latest
     ```
 
@@ -44,7 +44,7 @@ Environment Variable | Description
 ---------------------|------------
 EMAIL                | The MyJDownloader account email. Is written automatically to config-file, if set.
 PASSWORD             | The MyJDownloader account password. Is written automatically to config-file, if set.
-UID                  | Specifies the UID the daemon should run as. All created files will be owned by this UID. Defaults to 1000.
-GID                  | Specifies the GID for all created files. This only works in combination with the UID. Defaults to 100 for users.
+PUID                 | Specifies the UID the daemon should run as. All created files will be owned by this UID. Defaults to 1000.
+PGID                 | Specifies the GID for all created files. This only works in combination with the UID. Defaults to 911 for users.
 
-Not setting `UID` / `GID` will default to `1000`:`100`.
+Not setting `PUID` / `PGID` will default to `1000`:`911`.

@@ -1,20 +1,78 @@
-FROM eclipse-temurin:17-jre-jammy
+FROM docker.io/library/eclipse-temurin:17-jre-jammy as base
 
-# Create directory, and start JD2 for the initial update and creation of config files.
+# s6-overlay auto selection of architecture inspired from https://github.com/padhi-homelab/docker_s6-overlay/blob/4cdb04131112a8d89e7ed2102083a062c8168d89/Dockerfile
+ARG TARGETARCH
+
+FROM base AS base-amd64
+ENV S6_OVERLAY_ARCH=x86_64
+
+FROM base AS base-386
+ENV S6_OVERLAY_ARCH=i686
+
+FROM base AS base-arm64
+ENV S6_OVERLAY_ARCH=aarch64
+
+FROM base AS base-armv7
+ENV S6_OVERLAY_ARCH=armhf
+
+FROM base AS base-armv6
+ENV S6_OVERLAY_ARCH=arm
+
+FROM base AS base-ppc64le
+ENV S6_OVERLAY_ARCH=ppc64le
+
+FROM base-${TARGETARCH}${TARGETVARIANT}
+
+ARG S6_OVERLAY_VERSION=3.1.4.1
+
 RUN apt-get update && \
-	apt-get install -yqq tini wget make gcc jq && \
-	mkdir -p /opt/JDownloader/libs && \
-	wget -O /opt/JDownloader/JDownloader.jar --progress=dot:giga http://installer.jdownloader.org/JDownloader.jar && \
-	java -Djava.awt.headless=true -jar /opt/JDownloader/JDownloader.jar && \
-	mkdir -p /tmp/ && chmod a+trwx /tmp && \
-	wget -O /tmp/su-exec.tar.gz --progress=dot:giga https://github.com/ncopa/su-exec/archive/v0.2.tar.gz && \
-	cd /tmp/ && tar -xf su-exec.tar.gz && cd su-exec-0.2 && make && cp su-exec /usr/bin && \
-	apt-get purge -yqq wget make gcc && apt-get autoremove -yqq && cd / && rm -rf /tmp/*
+	apt-get install -y xz-utils wget jq --no-install-recommends \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Beta sevenzipbindings and entrypoint
-COPY common/* /opt/JDownloader/
-RUN chmod +x /opt/JDownloader/entrypoint.sh
+# add s6 overlay
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz.sha256 /tmp
+RUN tar -C / -Jxpf "/tmp/s6-overlay-noarch.tar.xz"
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_OVERLAY_ARCH}.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_OVERLAY_ARCH}.tar.xz.sha256 /tmp
+RUN tar -C / -Jxpf "/tmp/s6-overlay-${S6_OVERLAY_ARCH}.tar.xz"
 
-ENTRYPOINT ["tini", "-g", "--", "/opt/JDownloader/entrypoint.sh"]
-# Run this when the container is started
-CMD ["java", "-Djava.awt.headless=true", "-jar", "/opt/JDownloader/JDownloader.jar"]
+# add s6 optional symlinks
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz.sha256 /tmp
+RUN tar -C / -Jxpf "/tmp/s6-overlay-symlinks-noarch.tar.xz"
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz /tmp
+ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz.sha256 /tmp
+RUN tar -C / -Jxpf "/tmp/s6-overlay-symlinks-arch.tar.xz"
+
+# Verifying s6-overlay Downloads
+RUN cd /tmp && sha256sum -c *.sha256
+
+RUN groupmod -g 1000 users && \
+    useradd -u 911 -U -d /app/cfg -s /bin/false --home /app abc && \
+    usermod -G users abc && \
+    mkdir -p \
+        /app \
+        /app/cfg \
+        /config \
+        /defaults
+
+# environment variables
+ENV PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
+    HOME="/app" \
+    TERM="xterm" \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME="0" \
+    S6_VERBOSITY=1
+
+VOLUME ["/data"]
+
+# copy local files
+COPY root/ /
+
+# Using CMD is a convenient way to take advantage of the overlay.
+# Your CMD can be given at build time in the Dockerfile, or at run time on the command line, either way is fine.
+# It will be run as a normal process in the environment set up by s6; when it fails or exits, the container will shut down cleanly and exit
+CMD [ "/etc/s6-overlay/s6-rc.d/svc-jdownloader/run" ]
+
+ENTRYPOINT ["/init"]
