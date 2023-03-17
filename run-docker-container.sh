@@ -16,6 +16,6 @@ PASSWORD="SECRET"
 
 docker run --rm --pull=always \
     -e EMAIL="$EMAIL" -e PASSWORD="$PASSWORD" \
-    -v /config/jd2:/opt/JDownloader/cfg \
-    -v "$HOME/Downloads":/opt/JDownloader/Downloads \
+    -v /config/jd2:/app/cfg \
+    -v "$HOME/Downloads":/data \
     "ghcr.io/$PROJECT_NAME:latest"

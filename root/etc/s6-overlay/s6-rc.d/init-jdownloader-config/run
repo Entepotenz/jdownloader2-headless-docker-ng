@@ -1,0 +1,37 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
+
+# make our folders
+mkdir -p \
+    /data \
+    /app/cfg
+
+# Set MyJDownloader credentials
+CONFIG_FILE="/app/cfg/org.jdownloader.api.myjdownloader.MyJDownloaderSettings.json"
+if [ -n "$EMAIL" ] ; then
+    if [ ! -f "$CONFIG_FILE" ] || [ ! -s "$CONFIG_FILE" ] ; then
+        echo '{}' > "$CONFIG_FILE"
+    fi
+
+    CFG=$(jq -r --arg EMAIL "$EMAIL" --arg PASSWORD "$PASSWORD" '.email = $EMAIL | .password = $PASSWORD' "$CONFIG_FILE")
+    [ -n "$CFG" ] && echo "$CFG" > "$CONFIG_FILE"
+fi
+
+wget --no-clobber -O /app/JDownloader.jar --progress=dot:giga http://installer.jdownloader.org/JDownloader.jar
+
+# permissions
+chown -R abc:abc \
+    /app \
+    /app/cfg \
+    /data
+
+# chmod u=rwx,g=,o= /config
+chmod u=rwx,g=,o= /app
+chmod u=rwx,g=,o= /app/JDownloader.jar
+chmod u=rwx,g=,o= /app/cfg
+chmod u+rw --recursive /data

@@ -1,0 +1,30 @@
+---
+version: "3.9"
+
+# from: https://github.com/htpcBeginner/docker-traefik/blob/master/docker-compose-t2.yml
+x-common-keys-core: &common-keys-core
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  jdownloader:
+    <<: *common-keys-core # See EXTENSION FIELDS at the top
+    # restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # dockerfile: Dockerfile-ffmpeg
+    volumes:
+      - jdownloader_data_volume:/data:rw
+      - jdownloader_config_volume:/app/cfg:rw
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - EMAIL=$EMAIL
+      - PASSWORD=$PASSWORD
+
+volumes:
+  jdownloader_data_volume:
+    external: false
+  jdownloader_config_volume:
+    external: false
