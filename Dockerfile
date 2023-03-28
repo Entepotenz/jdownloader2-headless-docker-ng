@@ -49,14 +49,18 @@ RUN tar -C / -Jxpf "/tmp/s6-overlay-symlinks-arch.tar.xz"
 # Verifying s6-overlay Downloads
 RUN cd /tmp && sha256sum -c *.sha256
 
-RUN groupmod -g 1000 users && \
+RUN echo "**** create abc user and make our folders ****" && \
+    groupmod -g 1000 users && \
     useradd -u 911 -U -d /app/cfg -s /bin/false --home /app abc && \
     usermod -G users abc && \
     mkdir -p \
         /app \
         /app/cfg \
         /config \
-        /defaults
+        /defaults && \
+    echo "**** cleanup ****" && \
+    rm -rf \
+        /tmp/*
 
 # environment variables
 ENV PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
