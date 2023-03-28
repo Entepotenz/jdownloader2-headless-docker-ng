@@ -53,7 +53,7 @@ RUN echo "**** create abc user and make our folders ****" && \
     groupmod -g 1000 users && \
     useradd -u 911 -U -d /app/cfg -s /bin/false --home /app abc && \
     usermod -G users abc && \
-        mkdir -p \
+    mkdir -p \
         /app \
         /app/cfg \
         /config \
