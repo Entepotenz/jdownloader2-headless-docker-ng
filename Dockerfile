@@ -1,4 +1,4 @@
-FROM docker.io/library/eclipse-temurin:17-jre-jammy as base
+FROM docker.io/library/eclipse-temurin:20-jre-jammy as base
 
 # s6-overlay auto selection of architecture inspired from https://github.com/padhi-homelab/docker_s6-overlay/blob/4cdb04131112a8d89e7ed2102083a062c8168d89/Dockerfile
 ARG TARGETARCH
