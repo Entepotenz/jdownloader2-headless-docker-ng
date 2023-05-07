@@ -23,7 +23,7 @@ ENV S6_OVERLAY_ARCH=ppc64le
 
 FROM base-${TARGETARCH}${TARGETVARIANT}
 
-ARG S6_OVERLAY_VERSION=3.1.4.2
+ARG S6_OVERLAY_VERSION=3.1.5.0
 
 RUN apt-get update && \
 	apt-get install -y xz-utils wget jq --no-install-recommends \
