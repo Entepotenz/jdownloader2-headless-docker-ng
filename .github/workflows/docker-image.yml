@@ -126,6 +126,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           attests: type=sbom,generator=${{ env.BASE_IMAGE }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta_ffmpeg
@@ -151,6 +153,8 @@ jobs:
           tags: ${{ steps.meta_ffmpeg.outputs.tags }}
           labels: ${{ steps.meta_ffmpeg.outputs.labels }}
           attests: type=sbom,generator=${{ env.BASE_IMAGE }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
