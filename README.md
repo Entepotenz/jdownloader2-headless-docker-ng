@@ -17,12 +17,6 @@ This code is based on this repository: [https://github.com/PlusMinus0/headless-j
 
 ## Running the container
 
-1. Become root if your user is not part of the docker group:
-
-    ```shell
-    sudo su
-    ```
-
 1. Create a folder on your host for the configuration files (eg. `sudo mkdir /config/jd2`)
 1. Run the container:
 
