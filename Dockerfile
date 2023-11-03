@@ -1,4 +1,4 @@
-FROM docker.io/library/eclipse-temurin:17-jre-jammy as base
+FROM docker.io/library/eclipse-temurin:21-jre-jammy as base
 
 # s6-overlay auto selection of architecture inspired from https://github.com/padhi-homelab/docker_s6-overlay/blob/4cdb04131112a8d89e7ed2102083a062c8168d89/Dockerfile
 ARG TARGETARCH
@@ -21,6 +21,7 @@ ENV S6_OVERLAY_ARCH=arm
 FROM base AS base-ppc64le
 ENV S6_OVERLAY_ARCH=ppc64le
 
+# hadolint ignore=DL3006
 FROM base-${TARGETARCH}${TARGETVARIANT}
 
 ARG S6_OVERLAY_VERSION=3.1.5.0
@@ -47,7 +48,8 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLA
 RUN tar -C / -Jxpf "/tmp/s6-overlay-symlinks-arch.tar.xz"
 
 # Verifying s6-overlay Downloads
-RUN cd /tmp && sha256sum -c *.sha256
+# hadolint ignore=DL3003
+RUN cd /tmp && sha256sum -c -- *.sha256
 
 RUN echo "**** create abc user and make our folders ****" && \
     groupmod -g 1000 users && \

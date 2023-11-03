@@ -8,7 +8,7 @@ x-common-keys-core: &common-keys-core
 
 services:
   jdownloader:
-    <<: *common-keys-core # See EXTENSION FIELDS at the top
+    <<: *common-keys-core  # See EXTENSION FIELDS at the top
     # restart: unless-stopped
     build:
       context: .

@@ -1,0 +1,21 @@
+---
+
+name: Check for linting Markdown
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    paths:
+      - '**.md'
+permissions: read-all
+jobs:
+  lint-shell-script:
+    name: run markdownlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: DavidAnson/markdownlint-cli2-action@ed4dec634fd2ef689c7061d5647371d8248064f1  # v13.0.0
+        with:
+          globs: '**/*.md'

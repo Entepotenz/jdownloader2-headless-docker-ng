@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD013 -->
 # jdownloader2-headless-docker-ng
 
 [![Create and publish a Docker image](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml)
@@ -10,19 +11,20 @@ This container checks once a week if a new baseimage is available and builds/pus
 This code is based on this repository: [https://github.com/PlusMinus0/headless-jd2-docker](https://github.com/PlusMinus0/headless-jd2-docker)
 
 ## Supported tags
+
 * `latest`
 * `latest-ffmpeg`
 
-
 ## Running the container
 
-0. Become root if your user is not part of the docker group:
+1. Become root if your user is not part of the docker group:
 
     ```shell
     sudo su
     ```
+
 1. Create a folder on your host for the configuration files (eg. `sudo mkdir /config/jd2`)
-2. Run the container:
+1. Run the container:
 
     ```shell
     docker run -d --name jd2 \
@@ -40,6 +42,7 @@ and add them manually to the file `<config-dir>/org.jdownloader.api.myjdownloade
 ```
 
 ## Optional environment variables
+
 Environment Variable | Description
 ---------------------|------------
 EMAIL                | The MyJDownloader account email. Is written automatically to config-file, if set.

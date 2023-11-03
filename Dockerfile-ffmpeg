@@ -21,6 +21,7 @@ ENV S6_OVERLAY_ARCH=arm
 FROM base AS base-ppc64le
 ENV S6_OVERLAY_ARCH=ppc64le
 
+# hadolint ignore=DL3006
 FROM base-${TARGETARCH}${TARGETVARIANT}
 
 ARG S6_OVERLAY_VERSION=3.1.5.0
@@ -47,7 +48,8 @@ ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLA
 RUN tar -C / -Jxpf "/tmp/s6-overlay-symlinks-arch.tar.xz"
 
 # Verifying s6-overlay Downloads
-RUN cd /tmp && sha256sum -c *.sha256
+# hadolint ignore=DL3003
+RUN cd /tmp && sha256sum -c -- *.sha256
 
 RUN echo "**** create abc user and make our folders ****" && \
     groupmod -g 1000 users && \
