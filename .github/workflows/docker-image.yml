@@ -29,7 +29,7 @@ env:
   REGISTRY_GITHUB: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   BUILD_PLATFORMS: "linux/amd64"
-  BASE_IMAGE: "library/eclipse-temurin:21-jre-jammy"
+  BASE_IMAGE: "library/eclipse-temurin:17-jre-jammy"
 
 jobs:
   check-pre-condition:
