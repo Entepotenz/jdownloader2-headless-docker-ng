@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+        "streetsidesoftware.code-spell-checker-german",
+        "timonwong.shellcheck",
+        "foxundermoon.shell-format",
+        "esbenp.prettier-vscode",
+        "exiasr.hadolint",
+        "EditorConfig.EditorConfig",
+        "streetsidesoftware.code-spell-checker",
+        "AquaSecurityOfficial.trivy-vulnerability-scanner"
+    ],
+    "unwantedRecommendations": []
+}
