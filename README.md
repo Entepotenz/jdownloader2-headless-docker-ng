@@ -2,7 +2,7 @@
 # jdownloader2-headless-docker-ng
 
 [![Create and publish a Docker image](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/docker-image.yml)
-[![Lint Code Base](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/linter.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/linter.yml)
+[![MegaLinter](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/megalinter.yml/badge.svg)](https://github.com/Entepotenz/jdownloader2-headless-docker-ng/actions/workflows/megalinter.yml)
 
 This is a docker container which creates a headless instance of JDownloader.
 You can control this JDownloader instance by configuring your [MyJDownloader](https://my.jdownloader.org/) account.
