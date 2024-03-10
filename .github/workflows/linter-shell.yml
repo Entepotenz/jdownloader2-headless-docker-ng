@@ -1,12 +1,11 @@
 ---
-
 name: Check for linting shell
 
 # yamllint disable-line rule:truthy
 on:
   push:
     paths:
-      - '**.sh'
+      - "**.sh"
 permissions: read-all
 jobs:
   lint-shell-script:

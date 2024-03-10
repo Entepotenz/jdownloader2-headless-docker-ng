@@ -9,7 +9,7 @@ name: Create and publish a Docker image
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    - cron: "5 4 * * 0"  # At 04:05 on Sunday
+    - cron: "5 4 * * 0" # At 04:05 on Sunday
   push:
     branches:
       - "**"
@@ -48,7 +48,7 @@ jobs:
 
       - name: Docker Image Update Checker
         id: baseupdatecheck
-        uses: lucacome/docker-image-update-checker@f50d56412b948cfdbb842c5419372681e0db3df1  # v1.2.1
+        uses: lucacome/docker-image-update-checker@f50d56412b948cfdbb842c5419372681e0db3df1 # v1.2.1
         with:
           base-image: ${{ env.BASE_IMAGE }}
           image: ${{ steps.string_lower_case.outputs.lowercase }}:latest
@@ -117,7 +117,7 @@ jobs:
             suffix=
 
       - name: Build and push Docker image (WITHOUT ffmpeg)
-        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56  # v5.1.0
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
         with:
           context: .
           platforms: ${{ env.BUILD_PLATFORMS }}
@@ -144,7 +144,7 @@ jobs:
             suffix=-ffmpeg
 
       - name: Build and push Docker image (WITH ffmpeg)
-        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56  # v5.1.0
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
         with:
           context: .
           platforms: ${{ env.BUILD_PLATFORMS }}
