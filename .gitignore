@@ -1,3 +1,4 @@
 jdownloader2-headless-docker-ng.tar.gz
 jdownloader2-headless-docker-ng-ffmpeg.tar.gz
 .env
+megalinter-reports/
