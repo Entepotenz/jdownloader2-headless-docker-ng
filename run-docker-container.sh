@@ -15,7 +15,7 @@ PASSWORD="SECRET"
 #     "ghcr.io/${PROJECT_NAME}:latest"
 
 docker run --rm --pull=always \
-    -e EMAIL="$EMAIL" -e PASSWORD="$PASSWORD" \
-    -v /config/jd2:/app/cfg \
-    -v "$HOME/Downloads":/data \
-    "ghcr.io/$PROJECT_NAME:latest"
+	-e EMAIL="$EMAIL" -e PASSWORD="$PASSWORD" \
+	-v /config/jd2:/app/cfg \
+	-v "$HOME/Downloads":/data \
+	"ghcr.io/$PROJECT_NAME:latest"

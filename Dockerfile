@@ -28,7 +28,7 @@ FROM base-${TARGETARCH}${TARGETVARIANT}
 ARG S6_OVERLAY_VERSION=3.1.6.2
 
 RUN apt-get update && \
-	apt-get install -y xz-utils wget jq --no-install-recommends \
+    apt-get install -y xz-utils wget jq --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -57,13 +57,13 @@ RUN echo "**** create abc user and make our folders ****" && \
     useradd -u 911 -U -d /app/cfg -s /bin/false --home /app abc && \
     usermod -G users abc && \
     mkdir -p \
-        /app \
-        /app/cfg \
-        /config \
-        /defaults && \
+    /app \
+    /app/cfg \
+    /config \
+    /defaults && \
     echo "**** cleanup ****" && \
     rm -rf \
-        /tmp/*
+    /tmp/*
 
 # environment variables
 ENV PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
