@@ -1,0 +1,13 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:best-practices",
+        "helpers:pinGitHubActionDigests",
+        "workarounds:javaLTSVersions"
+    ],
+    "enabledManagers": [
+        "docker-compose",
+        "dockerfile",
+        "github-actions"
+    ]
+}
