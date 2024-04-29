@@ -5,5 +5,24 @@
     "helpers:pinGitHubActionDigests",
     "workarounds:javaLTSVersions"
   ],
-  "enabledManagers": ["docker-compose", "dockerfile", "github-actions"]
+  "enabledManagers": [
+    "custom.regex",
+    "docker-compose",
+    "dockerfile",
+    "github-actions"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "datasourceTemplate": "github-releases",
+      "fileMatch": [
+        "(^|/|\\.)([Dd]ocker|[Cc]ontainer)file.*$",
+        "(^|/)([Dd]ocker|[Cc]ontainer)file[^/]*$"
+      ],
+      "matchStrings": [
+        "#\\s?renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?ARG\\s+S6_OVERLAY_VERSION=\\s*(?<currentValue>.*)"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    }
+  ]
 }
