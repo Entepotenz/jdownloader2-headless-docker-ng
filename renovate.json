@@ -3,7 +3,8 @@
   "extends": [
     "config:best-practices",
     "helpers:pinGitHubActionDigests",
-    "workarounds:javaLTSVersions"
+    "workarounds:javaLTSVersions",
+    "security:openssf-scorecard"
   ],
   "enabledManagers": [
     "custom.regex",
