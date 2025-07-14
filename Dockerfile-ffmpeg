@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1@sha256:9857836c9ee4268391bb5b09f9f157f3c91bb15821bb77969642813b0d00518d
-FROM docker.io/library/eclipse-temurin:21-jre-jammy@sha256:034ce51c134cb9abcf28e2bda88fa36ac51369bb26351d697297e81caa9a5d76 as base
+FROM docker.io/library/eclipse-temurin:21-jre-jammy@sha256:10e079d1384769b34c4f0d3ad8142073ac97230a467f2f08e206b01c0f17c014 as base
 
 # s6-overlay auto selection of architecture inspired from https://github.com/padhi-homelab/docker_s6-overlay/blob/4cdb04131112a8d89e7ed2102083a062c8168d89/Dockerfile
 ARG TARGETARCH
