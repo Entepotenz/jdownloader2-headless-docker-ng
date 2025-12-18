@@ -1,8 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:best-practices",
-    "workarounds:javaLTSVersions",
+    "github>Entepotenz/renovate_custom_presets//default.json",
+    "github>Entepotenz/renovate_custom_presets//group-linters.json",
+    "github>Entepotenz/renovate_custom_presets//group-github-actions.json",
     "security:openssf-scorecard"
   ],
   "customManagers": [
@@ -17,19 +18,6 @@
         "#\\s?renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?ARG\\s+S6_OVERLAY_VERSION=\\s*(?<currentValue>.*)"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
-    }
-  ],
-  "packageRules": [
-    {
-      "groupName": "GitHub Artifact Actions",
-      "enabled": true,
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
     }
   ]
 }
