@@ -8,6 +8,7 @@ name: Create and publish a Docker image
 
 # yamllint disable-line rule:truthy
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
