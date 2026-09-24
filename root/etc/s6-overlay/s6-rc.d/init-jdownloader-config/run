@@ -22,7 +22,11 @@ if [ -n "$EMAIL" ] ; then
     [ -n "$CFG" ] && echo "$CFG" > "$CONFIG_FILE"
 fi
 
-wget --no-clobber -O /app/JDownloader.jar --progress=dot:giga http://installer.jdownloader.org/JDownloader.jar
+if [ ! -f /app/JDownloader.jar ]; then
+    # avoid --no-clobber here: it exits 1 when the file already exists, which
+    # would abort this script (via errexit) before permissions are (re-)applied below
+    wget -O /app/JDownloader.jar --progress=dot:giga http://installer.jdownloader.org/JDownloader.jar
+fi
 
 # permissions
 chown -R abc:abc \
