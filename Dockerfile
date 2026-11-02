@@ -54,7 +54,7 @@ RUN tar -C / -Jxpf "/tmp/s6-overlay-symlinks-arch.tar.xz"
 RUN cd /tmp && sha256sum -c -- *.sha256
 
 RUN echo "**** create abc user and make our folders ****" && \
-    groupmod -g 1000 users && \
+    groupmod -o -g 1000 users && \
     useradd -u 911 -U -d /app/cfg -s /bin/false --home /app abc && \
     usermod -G users abc && \
     mkdir -p \
